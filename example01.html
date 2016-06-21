@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+	<meta charset="utf-8">
+	<title>个人主页</title>
+	<link rel="stylesheet" href="example01.css">
+</head>
+<body>
+	<header>
+		<h1>Header</h1>
+		<h2>Subtitle</h2>
+		<h4>HTML5 Rocks!</h4>
+	</header>
+	<div id="container">
+		<nav>
+			<h3>导航</h3>
+			<a href="http://www.weibo.com" title="weibo">微博</a>
+			<a href="http://www.qq.com" title="qq">QQ</a>
+			<a href="http://www.163.com" title="163">网易</a>
+			<p id="describe">是一个网站</p>
+			<img src="images/weibo.jpg" id="weibo">
+			<img src="images/qq.jpg" id="qq">
+			<img src="images/163.jpg" id="163">
+			<img src="images/chuyin.jpg" width="200px" height="300px">
+			
+		</nav>
+		<section>
+			<article class="article">
+				<header>
+					<h1>Article Header</h1>
+				</header>
+				<p>第一段内容，第一段内容，第一段内容，第一段内容，第一段内容，第一段内容，第一段内容，第一段内容，第一段内容。</p>
+				<p>第二段内容，第二段内容，第二段内容，第二段内容，第二段内容，第二段内容，第二段内容，第二段内容，第二段内容，第二段内容。</p>
+				<p>第三段内容，第三段内容，第三段内容，第三段内容，第三段内容，第三段内容，第三段内容，第三段内容，第三段内容。</p>
+				<footer>
+					<h2>Article Footer</h2>
+				</footer>
+			</article>
+			<article class="article">
+				<header><h1>Article Header</h1></header>
+				<p>第一段内容，第一段内容，第一段内容，第一段内容，第一段内容，第一段内容，第一段内容，第一段内容，第一段内容。</p>
+				<p>第二段内容，第二段内容，第二段内容，第二段内容，第二段内容，第二段内容，第二段内容，第二段内容，第二段内容，第二段内容。</p>
+				<footer>
+					<h2>Article Footer</h2>
+				</footer>
+			</article>
+		</section>
+		<aside>
+			<h3>Aside</h3>
+			<p>HTML5: 新一代Web技术规范，这是一段文本，这是一段文本，这是一段文本，这是一段文本，这是一段文本，这是一段文本，这是一段文本，这是一段文本，这是一段文本，这是一段文本，这是一段文本，这是一段文本，这是一段文本，这是一段文本，这是一段文本，这是一段文本，这是一段文本，这是一段文本，这是一段文本，这是一段文本，这是一段文本。</p>
+		    <div>
+			  <input type="text" placeholder="weibo/qq/163" >
+			  <button>选择网站</button>
+			</div>
+	    </aside>
+		<footer>
+			<h2>Footer</h2>
+		</footer>
+	</div>
+	<script>
+	  function changeBeg(){
+	    var article = document.getElementsByTagName("article");
+		for(var i=0;i<article.length;i++){
+		article[i].onmouseover = function(){
+		  this.style.transform = "rotate(-10deg)";
+		  
+		}
+		article[i].onmouseout = function(){
+		  this.style.transform = "none";
+		}
+		}
+	  }
+	  
+	  function navBlock(){
+	    var nav = document.getElementsByTagName("nav")[0];
+		var links = nav.getElementsByTagName("a");
+		var describe = document.getElementById("describe");
+		var images = nav.getElementsByTagName("img");
+		for(var i = 0;i<links.length;i++){
+		  links[i].onmouseover = function(){
+			if(this.title == "weibo"){
+			  describe.firstChild.nodeValue = "微博：这是一段描述这是一段描述这是一段描述这是一段描述这是一段描述这是一段描述";
+			  describe.style.top = "90px";
+			  describe.style.left = "10px";
+			}else if(this.title == "qq"){
+			  describe.firstChild.nodeValue = "QQ：这是一段描述这是一段描述这是一段描述这是一段描述这是一段描述这是一段描述";
+			  describe.style.top = "140px";
+			  describe.style.left = "10px";
+			}else{
+			  describe.firstChild.nodeValue = "网易：这是一段描述这是一段描述这是一段描述这是一段描述这是一段描述这是一段描述";
+			  describe.style.top = "190px";
+			  describe.style.left = "10px";
+			}
+			describe.style.display = "block";
+			var name = this.title;
+			var image = document.getElementById(name);
+			image.style.border = "3px #fff dotted";
+			 
+			
+			
+		  }
+		  links[i].onmouseout = function(){
+			
+			describe.style.display = "none";
+			var name = this.title;
+			var image = document.getElementById(name);
+			image.style.border = "3px #f47d31 solid";
+		    
+		  }
+		}
+		
+		}
+		
+		function prepareWorks(){
+		  document.getElementsByTagName("input")[0].focus();
+		}
+		
+	  function buttonPage(){
+	    var nav = document.getElementsByTagName("nav")[0];
+	    var links = nav.getElementsByTagName("a");
+	    var button = document.getElementsByTagName("button")[0];
+		button.onclick = function(){
+		  var website = document.getElementsByTagName("input")[0].value;
+		  
+		  for(var i = 0;i<links.length;i++){
+		    var target = links[i].title;
+			if(website == target){
+			  if(!confirm("确定转去" + website +"？")){return true;}
+			  window.open(links[i].href);
+			  break;
+			}
+		  }
+		}
+		
+	  }
+	  
+	  
+	  
+	  window.onload = function(){
+	     prepareWorks();	
+		 changeBeg();
+		 navBlock();
+		 buttonPage();
+	  }
+	
+	</script>
+</body>
+</html>
