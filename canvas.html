@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<img src="images/01.jpg" alt="" id="img">
+<div>
+    <canvas height="1000px" width="1000px" id="canvas"></canvas>
+</div>
+<script>
+    var canvas = document.getElementById("canvas"),
+            img  = document.getElementById("img");
+            context = canvas.getContext("2d");
+    /*
+    (function draw() {
+        context.drawImage(img,0,0,50,50,100,100,100,100);
+        context.beginPath();
+        context.moveTo(100,100);
+        context.lineTo(200,200);
+        context.strokeStyle = "red";
+        context.stroke();
+        context.fillStyle = "#000";
+        context.fillRect(0,0,canvas.height,canvas.width);
+    })();
+    */
+    var stars = [],
+            a = canvas.height/2,
+            b = canvas.width/2,
+            r = canvas.height/3,
+            num = 1000;
+
+    function getMinRandom() {
+        var random = {};
+        for(var i = 0; i < 100; i++){
+            var minx = Infinity,
+                    miny = Infinity,
+                    x = Math.random() * (canvas.width/2 - r) * (Math.pow(-1, Math.floor(Math.random() * 10))),
+                    y = Math.random() * (canvas.height /2 - r) * (Math.pow(-1, Math.floor(Math.random() * 10)));
+            if(Math.abs(x) < minx){
+                minx = x;
+            }
+            if(Math.abs(y) < miny){
+                miny = y;
+            }
+        }
+        random.x = minx;
+        random.y = miny;
+        return random;
+    }
+    function  Star() {
+        this.dura_random = getMinRandom();
+        this.speed = Math.random() * 0.5;  //Math.random() * 0.05 + 0.025
+        this.star_r = Math.random() * 0.25 + 0.5;  //0.5 + (Math.random() + 0.1 / 4)
+        this.x = Math.random() * canvas.width;
+        this.y = Math.abs(Math.sqrt(r * r - (this.x - a) * (this.x - a)) + Math.pow(-1, Math.floor(Math.random() * 10)) * b);
+        if((this.y < b && this.x <= a) ||(this.y <= b && this.x >= a)){
+            this.speed = - this.speed;
+        }
+        stars.push(this);
+    }
+
+    function clearCanvas() {
+            context.clearRect(0, 0, canvas.width, canvas.height);
+            context.fillStyle = "#000";
+            context.fillRect(0, 0, canvas.width, canvas.height);
+    }
+
+    Star.prototype.update = function () {
+        this.x = this.x + this.speed;
+        if(this.speed > 0 && this.x > a + r){
+            this.speed = - this.speed;
+            this.y = b;
+        }else if(this.speed < 0 && this.x < a - r){
+            this.speed = - this.speed;
+            this.y = b;
+        }else{
+            if(this.speed > 0){
+                this.y = b - Math.abs(Math.sqrt(r * r - (this.x - a) * (this.x - a)));
+            }else if(this.speed < 0){
+                this.y = b + Math.abs(Math.sqrt(r * r - (this.x - a) * (this.x - a)));
+            }
+        }
+        this.arc_x = this.x+ this.dura_random.x;
+        this.arc_y = this.y+ this.dura_random.y;
+    }
+
+    Star.prototype.draw = function () {
+        this.update();
+        context.beginPath();
+        context.fillStyle = "white";
+        context.arc(this.arc_x,this.arc_y,this.star_r,0,Math.PI*2);
+        context.closePath();
+        context.fill();
+    };
+
+    for(var i = 0; i < 2000; i++){
+        new Star();
+    }
+    function drawStars() {
+        clearCanvas();
+        for ( var i in stars ) {
+            stars[i].draw();
+        }
+        setTimeout(drawStars, 50);
+    };
+
+    drawStars();
+</script>
+</body>
+</html>
